@@ -16,30 +16,55 @@ if (!SpeechRecognition) {
     recognition.interimResults = true;
     recognition.lang = "en-US";
 
+    let listening = false;
+    let finalTranscript = "";
+
     startButton.addEventListener("click", () => {
-        recognition.start();
-        startButton.textContent = "🔴 Listening...";
+
+        if (!listening) {
+            listening = true;
+            recognition.start();
+            startButton.textContent = "🔴 Listening...";
+        }
+
     });
 
     recognition.onresult = (event) => {
 
-        let text = "";
+        let interimTranscript = "";
 
         for (let i = event.resultIndex; i < event.results.length; i++) {
-            text += event.results[i][0].transcript;
+
+            const transcript = event.results[i][0].transcript;
+
+            if (event.results[i].isFinal) {
+                finalTranscript += transcript + " ";
+            } else {
+                interimTranscript += transcript;
+            }
         }
 
-        transcriptBox.textContent = text;
+        transcriptBox.textContent =
+            finalTranscript + interimTranscript;
     };
 
     recognition.onend = () => {
-        startButton.textContent = "🎙️ Start Listening";
+
+        if (listening) {
+            recognition.start();
+        }
+
     };
-}
 
-clearButton.addEventListener("click", () => {
+    recognition.onerror = (event) => {
+        console.log("Speech recognition error:", event.error);
+    };
 
-    transcriptBox.innerHTML =
-        '<span class="placeholder">Your words will appear here...</span>';
+    clearButton.addEventListener("click", () => {
 
-});
+        finalTranscript = "";
+
+        transcriptBox.innerHTML =
+            '<span class="placeholder">Your words will appear here...</span>';
+    });
+                                 }
