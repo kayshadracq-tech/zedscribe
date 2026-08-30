@@ -6,8 +6,10 @@ const SpeechRecognition =
     window.SpeechRecognition || window.webkitSpeechRecognition;
 
 if (!SpeechRecognition) {
+
     startButton.disabled = true;
     startButton.textContent = "Speech recognition not supported";
+
 } else {
 
     const recognition = new SpeechRecognition();
@@ -23,41 +25,81 @@ if (!SpeechRecognition) {
 
         if (!listening) {
             listening = true;
-            recognition.start();
-            startButton.textContent = "🔴 Listening...";
+
+            try {
+                recognition.start();
+                startButton.textContent = "🔴 Listening...";
+            } catch (error) {
+                console.log("Recognition already running.");
+            }
         }
 
     });
 
     recognition.onresult = (event) => {
 
-        let interimTranscript = "";
+        let currentTranscript = "";
 
-        for (let i = event.resultIndex; i < event.results.length; i++) {
+        for (let i = 0; i < event.results.length; i++) {
 
-            const transcript = event.results[i][0].transcript;
+            const transcript =
+                event.results[i][0].transcript;
 
             if (event.results[i].isFinal) {
-                finalTranscript += transcript + " ";
-            } else {
-                interimTranscript += transcript;
+                currentTranscript += transcript + " ";
             }
         }
 
-        transcriptBox.textContent =
-            finalTranscript + interimTranscript;
+        /*
+         * Only update the permanent transcript
+         * with final speech.
+         */
+        if (currentTranscript.trim() !== "") {
+            finalTranscript += currentTranscript;
+        }
+
+        /*
+         * Show the permanent transcript.
+         */
+        transcriptBox.textContent = finalTranscript.trim();
     };
 
     recognition.onend = () => {
 
+        /*
+         * Keep listening automatically.
+         */
         if (listening) {
-            recognition.start();
-        }
 
+            setTimeout(() => {
+
+                try {
+                    recognition.start();
+                } catch (error) {
+                    console.log("Recognition restart:", error);
+                }
+
+            }, 100);
+        }
     };
 
     recognition.onerror = (event) => {
-        console.log("Speech recognition error:", event.error);
+
+        console.log(
+            "Speech recognition error:",
+            event.error
+        );
+
+        /*
+         * Ignore normal temporary errors
+         * while continuing to listen.
+         */
+        if (
+            event.error === "no-speech" ||
+            event.error === "aborted"
+        ) {
+            return;
+        }
     };
 
     clearButton.addEventListener("click", () => {
@@ -67,4 +109,4 @@ if (!SpeechRecognition) {
         transcriptBox.innerHTML =
             '<span class="placeholder">Your words will appear here...</span>';
     });
-                                 }
+}
