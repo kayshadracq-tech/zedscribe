@@ -15,7 +15,7 @@ if (!SpeechRecognition) {
     const recognition = new SpeechRecognition();
 
     recognition.continuous = true;
-    recognition.interimResults = true;
+    recognition.interimResults = false;
     recognition.lang = "en-US";
     recognition.maxAlternatives = 1;
 
@@ -24,7 +24,9 @@ if (!SpeechRecognition) {
 
     startButton.addEventListener("click", () => {
 
-        if (listening) return;
+        if (listening) {
+            return;
+        }
 
         listening = true;
         startButton.textContent = "🔴 Listening...";
@@ -32,63 +34,44 @@ if (!SpeechRecognition) {
         try {
             recognition.start();
         } catch (error) {
-            console.log("Start error:", error);
+            console.log(error);
         }
     });
 
     recognition.onresult = (event) => {
 
-        let interimTranscript = "";
-
-        /*
-         * Only process results that changed.
-         * resultIndex tells us where the changed
-         * results begin.
-         */
         for (let i = event.resultIndex; i < event.results.length; i++) {
 
-            const result = event.results[i];
-            const text = result[0].transcript;
+            if (event.results[i].isFinal) {
 
-            if (result.isFinal) {
-                finalTranscript += text + " ";
-            } else {
-                interimTranscript += text;
+                const text =
+                    event.results[i][0].transcript.trim();
+
+                if (text) {
+                    finalTranscript += text + " ";
+                }
             }
         }
 
-        /*
-         * Final text stays permanent.
-         * Interim text is displayed temporarily.
-         */
         transcriptBox.textContent =
-            finalTranscript + interimTranscript;
+            finalTranscript.trim();
     };
 
     recognition.onend = () => {
 
-        if (listening) {
-
-            setTimeout(() => {
-
-                try {
-                    recognition.start();
-                } catch (error) {
-                    console.log("Restart error:", error);
-                }
-
-            }, 100);
-        }
+        listening = false;
+        startButton.textContent = "🎙️ Start Listening";
     };
 
     recognition.onerror = (event) => {
 
-        console.log("Speech recognition error:", event.error);
+        console.log(
+            "Speech recognition error:",
+            event.error
+        );
 
-        if (event.error === "not-allowed") {
-            listening = false;
-            startButton.textContent = "🎙️ Start Listening";
-        }
+        listening = false;
+        startButton.textContent = "🎙️ Start Listening";
     };
 
     clearButton.addEventListener("click", () => {
