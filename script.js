@@ -17,58 +17,56 @@ if (!SpeechRecognition) {
     recognition.continuous = true;
     recognition.interimResults = true;
     recognition.lang = "en-US";
+    recognition.maxAlternatives = 1;
 
     let listening = false;
     let finalTranscript = "";
 
     startButton.addEventListener("click", () => {
 
-        if (!listening) {
-            listening = true;
+        if (listening) return;
 
-            try {
-                recognition.start();
-                startButton.textContent = "🔴 Listening...";
-            } catch (error) {
-                console.log("Recognition already running.");
-            }
+        listening = true;
+        startButton.textContent = "🔴 Listening...";
+
+        try {
+            recognition.start();
+        } catch (error) {
+            console.log("Start error:", error);
         }
-
     });
 
     recognition.onresult = (event) => {
 
-        let currentTranscript = "";
+        let interimTranscript = "";
 
-        for (let i = 0; i < event.results.length; i++) {
+        /*
+         * Only process results that changed.
+         * resultIndex tells us where the changed
+         * results begin.
+         */
+        for (let i = event.resultIndex; i < event.results.length; i++) {
 
-            const transcript =
-                event.results[i][0].transcript;
+            const result = event.results[i];
+            const text = result[0].transcript;
 
-            if (event.results[i].isFinal) {
-                currentTranscript += transcript + " ";
+            if (result.isFinal) {
+                finalTranscript += text + " ";
+            } else {
+                interimTranscript += text;
             }
         }
 
         /*
-         * Only update the permanent transcript
-         * with final speech.
+         * Final text stays permanent.
+         * Interim text is displayed temporarily.
          */
-        if (currentTranscript.trim() !== "") {
-            finalTranscript += currentTranscript;
-        }
-
-        /*
-         * Show the permanent transcript.
-         */
-        transcriptBox.textContent = finalTranscript.trim();
+        transcriptBox.textContent =
+            finalTranscript + interimTranscript;
     };
 
     recognition.onend = () => {
 
-        /*
-         * Keep listening automatically.
-         */
         if (listening) {
 
             setTimeout(() => {
@@ -76,7 +74,7 @@ if (!SpeechRecognition) {
                 try {
                     recognition.start();
                 } catch (error) {
-                    console.log("Recognition restart:", error);
+                    console.log("Restart error:", error);
                 }
 
             }, 100);
@@ -85,20 +83,11 @@ if (!SpeechRecognition) {
 
     recognition.onerror = (event) => {
 
-        console.log(
-            "Speech recognition error:",
-            event.error
-        );
+        console.log("Speech recognition error:", event.error);
 
-        /*
-         * Ignore normal temporary errors
-         * while continuing to listen.
-         */
-        if (
-            event.error === "no-speech" ||
-            event.error === "aborted"
-        ) {
-            return;
+        if (event.error === "not-allowed") {
+            listening = false;
+            startButton.textContent = "🎙️ Start Listening";
         }
     };
 
