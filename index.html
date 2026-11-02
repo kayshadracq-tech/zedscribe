@@ -4,201 +4,176 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <meta name="description" content="Zed Transcriber is an accessible communication platform for everyone.">
-
+    <meta name="description" content="Zed Transcriber - accessible communication technology for everyone.">
     <title>Zed Transcriber</title>
-
     <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@0.468.0"></script>
 </head>
 
 <body>
+<div class="app">
 
-    <div class="app">
+    <header class="top-header">
+        <a class="brand" href="#home">
+            <span class="brand-icon"><i data-lucide="audio-lines"></i></span>
+            <span>
+                <strong>Zed Transcriber</strong>
+                <small>Bridging communication through technology</small>
+            </span>
+        </a>
 
-        <!-- Header -->
-        <header class="top-header">
-            <div class="brand">
-                <i data-lucide="audio-lines"></i>
+        <div class="header-controls">
+            <a href="#accessibility"><i data-lucide="accessibility"></i> Accessibility</a>
+            <button class="display-control" type="button" aria-label="Display settings">A A A</button>
+            <span class="light-label"><i data-lucide="sun"></i> Light</span>
+        </div>
+    </header>
+
+    <main class="main-layout" id="home">
+
+        <nav class="sidebar" aria-label="Main navigation">
+            <p class="nav-heading">MENU</p>
+            <a href="#home" class="nav-item active"><i data-lucide="house"></i> Home</a>
+            <a href="#transcripts" class="nav-item"><i data-lucide="file-text"></i> My Transcripts</a>
+            <a href="#tools" class="nav-item"><i data-lucide="grid-2x2"></i> Tools</a>
+            <a href="#learn-zsl" class="nav-item"><i data-lucide="graduation-cap"></i> Learn ZSL</a>
+            <a href="#accessibility" class="nav-item"><i data-lucide="accessibility"></i> Accessibility</a>
+            <a href="#settings" class="nav-item"><i data-lucide="settings"></i> Settings</a>
+            <a href="#about" class="nav-item"><i data-lucide="info"></i> About</a>
+
+            <div class="sidebar-note">
+                <i data-lucide="heart-handshake"></i>
+                <strong>Communication for everyone.</strong>
+                <p>Making everyday communication more accessible.</p>
+            </div>
+        </nav>
+
+        <section class="transcription-panel" id="transcripts">
+            <div class="panel-header">
                 <div>
-                    <h1>Zed Transcriber</h1>
-                    <p>Bridging communication through accessible technology.</p>
+                    <span class="eyebrow">LIVE TRANSCRIPTION</span>
+                    <h1><i data-lucide="mic"></i> Speech to Text</h1>
+                    <p>Speak naturally and see your words appear as text.</p>
                 </div>
+                <span class="status"><span></span> Ready</span>
             </div>
 
-            <div class="header-controls">
-                <span><i data-lucide="accessibility"></i> Accessibility</span>
-                <span class="text-size">A A A</span>
-                <span><i data-lucide="sun"></i> Light</span>
-            </div>
-        </header>
-
-        <!-- Main Layout -->
-        <main class="main-layout" id="home">
-
-            <!-- Navigation -->
-            <nav class="sidebar" aria-label="Main navigation">
-
-                <a href="#home" class="nav-item active">
-                    <i data-lucide="house"></i> Home
-                </a>
-
-                <a href="#transcripts" class="nav-item">
-                    <i data-lucide="file-text"></i> My Transcripts
-                </a>
-
-                <a href="#tools" class="nav-item">
-                    <i data-lucide="play"></i> Tools
-                </a>
-
-                <a href="#learn-zsl" class="nav-item">
-                    <i data-lucide="graduation-cap"></i> Learn ZSL
-                </a>
-
-                <a href="#accessibility" class="nav-item">
-                    <i data-lucide="accessibility"></i> Accessibility
-                </a>
-
-                <a href="#settings" class="nav-item">
-                    <i data-lucide="settings"></i> Settings
-                </a>
-
-                <a href="#about" class="nav-item">
-                    <i data-lucide="info"></i> About
-                </a>
-
-            </nav>
-
-            <!-- Speech to Text -->
-            <section class="transcription-panel" id="transcripts">
-
-                <div class="panel-header">
-                    <div>
-                        <h2><i data-lucide="mic"></i> Speech to Text</h2>
-                        <p>Speak clearly and get your words converted into text.</p>
-                    </div>
-
-                    <span class="status">● Ready</span>
+            <div class="transcription-content">
+                <div class="transcript-toolbar">
+                    <span><i data-lucide="file-text"></i> Transcript</span>
+                    <span class="live-indicator">Ready to listen</span>
                 </div>
 
-                <div class="transcription-content">
+                <section class="transcript"
+                    aria-label="Transcription result"
+                    aria-live="polite"
+                    aria-atomic="false">
+                    <span class="placeholder">Your words will appear here...</span>
+                </section>
 
-                    <section class="transcript"
-                        aria-label="Transcription result"
-                        aria-live="polite"
-                        aria-atomic="false">
-
-                        <span class="placeholder">
-                            Your words will appear here...
-                        </span>
-
-                    </section>
-
-                    <div class="transcription-actions">
-
-                        <button class="start-btn">
-                            <i data-lucide="mic"></i>
-                            Start Listening
-                        </button>
-
-                        <button class="clear-btn">
-                            <i data-lucide="trash-2"></i>
-                            Clear
-                        </button>
-
-                    </div>
-
+                <div class="transcription-actions">
+                    <button class="start-btn" type="button">
+                        <i data-lucide="mic"></i>
+                        Start Listening
+                    </button>
+                    <button class="clear-btn" type="button">
+                        <i data-lucide="trash-2"></i>
+                        Clear
+                    </button>
                 </div>
 
-            </section>
-
-            <!-- Future Features -->
-            <aside class="future-features" id="tools">
-
-                <h2>Our Future Features</h2>
-
-                <article class="feature-card">
-                    <i data-lucide="video"></i>
-                    <div>
-                        <h3>Text to Sign Language Video</h3>
-                        <p>Convert written text into sign language videos.</p>
-                        <span>Coming Soon</span>
-                    </div>
-                </article>
-
-                <article class="feature-card">
-                    <i data-lucide="clapperboard"></i>
-                    <div>
-                        <h3>Sign Language Video to Text</h3>
-                        <p>Convert sign language videos into written text.</p>
-                        <span>Coming Soon</span>
-                    </div>
-                </article>
-
-                <article class="feature-card">
-                    <i data-lucide="book-open"></i>
-                    <div>
-                        <h3>ZSL Sign Bank</h3>
-                        <p>Explore Zambian Sign Language signs and meanings.</p>
-                        <span>Coming Soon</span>
-                    </div>
-                </article>
-
-            </aside>
-
-        </main>
-
-        <!-- Accessibility Section -->
-        <section class="accessibility-section" id="accessibility">
-
-            <h2><i data-lucide="accessibility"></i> Accessibility for All</h2>
-
-            <div class="accessibility-grid">
-
-                <article>
-                    <i data-lucide="ear"></i>
-                    <h3>Deaf People</h3>
-                    <p>Speech-to-text, captions and sign language tools.</p>
-                </article>
-
-                <article>
-                    <i data-lucide="eye-off"></i>
-                    <h3>Blind and Visually Impaired</h3>
-                    <p>Screen reader support, keyboard navigation and audio feedback.</p>
-                </article>
-
-                <article>
-                    <i data-lucide="ear-off"></i>
-                    <h3>DeafBlind People</h3>
-                    <p>Flexible communication options.</p>
-                </article>
-
-                <article>
-                    <i data-lucide="users"></i>
-                    <h3>Other Disabilities</h3>
-                    <p>A simple and adaptable interface for everyone.</p>
-                </article>
-
+                <p class="privacy-note">
+                    <i data-lucide="shield-check"></i>
+                    Your communication matters. Use this tool to make conversations easier.
+                </p>
             </div>
-
         </section>
 
-        <!-- Footer -->
-        <footer class="footer" id="about">
-            <p><strong>Zed Transcriber</strong> | Empowering communication through technology.</p>
-            <p>Made with ❤️ for an inclusive Zambia 🇿🇲</p>
-        </footer>
+        <aside class="future-features" id="tools">
+            <div class="section-heading">
+                <h2>Explore More</h2>
+                <p>Tools we are working towards</p>
+            </div>
 
+            <article class="feature-card">
+                <span class="feature-icon"><i data-lucide="video"></i></span>
+                <div>
+                    <h3>Text to Sign Language Video</h3>
+                    <p>Convert written text into sign language videos.</p>
+                    <span class="coming-soon">Coming Soon</span>
+                </div>
+            </article>
+
+            <article class="feature-card">
+                <span class="feature-icon"><i data-lucide="clapperboard"></i></span>
+                <div>
+                    <h3>Sign Language Video to Text</h3>
+                    <p>Convert sign language videos into written text.</p>
+                    <span class="coming-soon">Coming Soon</span>
+                </div>
+            </article>
+
+            <article class="feature-card">
+                <span class="feature-icon"><i data-lucide="book-open"></i></span>
+                <div>
+                    <h3>ZSL Sign Bank</h3>
+                    <p>Explore Zambian Sign Language signs and meanings.</p>
+                    <span class="coming-soon">Coming Soon</span>
+                </div>
+            </article>
+        </aside>
+    </main>
+
+    <section class="accessibility-section" id="accessibility">
+        <div class="section-heading">
+            <span class="eyebrow">INCLUSIVE BY DESIGN</span>
+            <h2>Accessibility for All</h2>
+            <p>Technology should make communication easier for everyone.</p>
+        </div>
+
+        <div class="accessibility-grid">
+            <article class="accessibility-card">
+                <span class="access-icon"><i data-lucide="ear"></i></span>
+                <h3>Deaf People</h3>
+                <p>Speech-to-text, captions and sign language tools.</p>
+            </article>
+
+            <article class="accessibility-card">
+                <span class="access-icon"><i data-lucide="eye"></i></span>
+                <h3>Blind and Visually Impaired</h3>
+                <p>Screen-reader support, keyboard navigation and audio feedback.</p>
+            </article>
+
+            <article class="accessibility-card">
+                <span class="access-icon"><i data-lucide="hand"></i></span>
+                <h3>DeafBlind People</h3>
+                <p>Flexible communication options designed with accessibility in mind.</p>
+            </article>
+
+            <article class="accessibility-card">
+                <span class="access-icon"><i data-lucide="users"></i></span>
+                <h3>Other Disabilities</h3>
+                <p>A simple and adaptable experience for different accessibility needs.</p>
+            </article>
+        </div>
+    </section>
+
+    <footer class="footer" id="about">
+    <div>
+        <strong>Zed Transcriber</strong>
+        <p>Empowering communication through accessible technology.</p>
+        <p>Developed by <strong>KayShadracq-Tech</strong></p>
     </div>
+    <span>Made with care for an inclusive Zambia 🇿🇲</span>
+    </footer>
 
-    <!-- Icons -->
-    <script src="https://unpkg.com/lucide@0.468.0"></script>
-    <script>
+</div>
+
+<script>
+    if (window.lucide) {
         lucide.createIcons();
-    </script>
-
-    <script src="script.js" defer></script>
-
+    }
+</script>
+<script src="script.js" defer></script>
 </body>
-    </html>
-                    
+</html>
